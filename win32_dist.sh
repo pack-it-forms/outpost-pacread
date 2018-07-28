@@ -34,8 +34,9 @@ for f in "README.md" "LICENSE" "AUTHORS"; do
         mv "${dest}/${f}" "${dest}/${f%%.*}_FORMS.${f#*.}"
     fi
 done
-install -D -v "AUTHORS" "CONFIG" "LICENSE" "VERSION" "VERSION_OF_FORMS" "${dest}"
-install -D -v "pac-read/"{"pac-read.py","setup.py"} "${dest}/resources/scripts/pac-read"
+install -D -v "AUTHORS" "CONFIG" "LICENSE" "README.md" "VERSION" "VERSION_OF_FORMS" "${dest}"
+install -d "${dest}/resources/scripts/pac-read"
+install -v "pac-read/"{"pac-read.py","setup.py"} "${dest}/resources/scripts/pac-read/"
 (cd "${dest}/resources/scripts/pac-read" && python ./setup.py build)
 (cd "${tmpdir}" && powershell Compress-Archive -Path pack-it-forms -DestinationPath "..\\${distfile}")
 rm -r ${tmpdir}
