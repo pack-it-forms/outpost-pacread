@@ -11,7 +11,7 @@ with open("../../../VERSION") as file:
     myversion = file.read()
 
 setup (name = "pac-read",
-       version = myversion
+       version = myversion,
        description = "pack-it-forms form display wrapper for PacFORMS pac-read.exe",
        authors = "pack-it-forms development team",
        options = {"build_exe": build_exe_options},

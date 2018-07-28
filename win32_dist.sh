@@ -11,7 +11,10 @@
 version=$(cat "./VERSION")
 forms_version=$(cat "./VERSION_OF_FORMS")
 forms_repo="https://github.com/pack-it-forms/pack-it-forms.git"
-distfile="pack-it-forms-${version}-win32.zip"
+
+distdir="dist"
+mkdir -p "${distdir}"
+distfile="${distdir}/pack-it-forms-${version}-win32.zip"
 
 if [ -e "${distfile}" ]; then
     printf "Dist file already exists: %s\n" "${distfile}"
@@ -21,13 +24,18 @@ fi
 tmpdir=$(mktemp -d -p .)
 dest="${tmpdir}/pack-it-forms"
 mkdir "${dest}"
-git clone --depth 1 --branch "${forms_version}" "${forms_repo}" "${dest}"
-rm -r "${dest}/.git" "${dest}/.gitignore"
+git clone "${forms_repo}" "${dest}"
+(cd "${dest}" && git checkout -q "${forms_version}")
+rm -vfr "${dest}/.git" "${dest}/.gitignore"
 for f in "README.md" "LICENSE" "AUTHORS"; do
-    mv "${dest}/${f}" "${dest}/${f%%.*}_FORMS.${f#*.}"
+    if [ "${f}" == "${f%%.*}" ]; then
+        mv "${dest}/${f}" "${dest}/${f}_FORMS"
+    else
+        mv "${dest}/${f}" "${dest}/${f%%.*}_FORMS.${f#*.}"
+    fi
 done
-install -D -v "CONFIG" "VERSION" "VERSION_OF_FORMS" "${dest}"
-install -D -v "pac-read/{pac-read.py,setup.py}" "${dest}/resources/scripts/pac-read"
+install -D -v "AUTHORS" "CONFIG" "LICENSE" "VERSION" "VERSION_OF_FORMS" "${dest}"
+install -D -v "pac-read/"{"pac-read.py","setup.py"} "${dest}/resources/scripts/pac-read"
 (cd "${dest}/resources/scripts/pac-read" && python ./setup.py build)
 (cd "${tmpdir}" && powershell Compress-Archive -Path pack-it-forms -DestinationPath "..\\${distfile}")
 rm -r ${tmpdir}
