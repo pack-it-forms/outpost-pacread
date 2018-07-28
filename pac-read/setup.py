@@ -1,4 +1,5 @@
 import sys
+import re
 from cx_Freeze import setup, Executable
 
 build_exe_options = {"packages": ["sys", "os", "subprocess", "shutil",
@@ -8,7 +9,10 @@ build_exe_options = {"packages": ["sys", "os", "subprocess", "shutil",
 # This is the location at build time, not in the repo. See the
 # file '../win32_dist.sh'.
 with open("../../../VERSION") as file:
-    myversion = file.read()
+    myversion = file.read().strip()
+    m = re.match("^([\d.]+)(pre|rc)([\d]+)", myversion)
+    if m:
+        myversion = m.group(1)
 
 setup (name = "pac-read",
        version = myversion,
