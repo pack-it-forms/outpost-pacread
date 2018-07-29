@@ -2,18 +2,12 @@ pack-it-forms-outpost-pacread
 =============================
 
 This is an integration module for
-
 [pack-it-forms](https://github.com/pack-it-forms/pack-it-forms),
-
 a browser-based forms system for packet radio, that allows it to be
 used more-or-less transparently with the
-
 [Outpost](https://www.outpostpm.org/index.php),
-
 radio messaging application, alongside
-
 [PacFORMS](https://www.scc-ares-races.org/pfpublic/pacforms.html),
-
 an earlier browser-based forms package, by replacing the PacFORMs
 pac-read executable.
 
@@ -109,8 +103,6 @@ Outpost and PacFORMS installation.
 Using and Creating Forms
 ------------------------
 Instructions for using (and creating) are included in the
-
 [pack-it-forms](https://github.com/pack-it-forms/pack-it-forms)
-
 project.
 
